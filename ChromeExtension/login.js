@@ -43,6 +43,6 @@ function logout(e) {
         $('.userInfo').css('display', 'none');
         $('.loginForm').css('display', 'block');
 
-        console.log('Removed token');
+        console.log('Storage cleared');
     });
 }
