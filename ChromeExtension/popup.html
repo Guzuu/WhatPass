@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="popup.css">
+
+        <script src="jquery-3.6.0.min.js"></script>
+    </head>
+    <body>
+        <div class="userInfo" style="display:none;">
+            <p>You are loged in as: <span class="userName"></span></p>
+            <input type="button" value="Logout" id="logOut" />
+        </div>
+
+        <div class="loginForm">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="email" class="form-control" placeholder="Email" id="email">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="password" class="form-control" placeholder="Password" id="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="submit" id="submitLogin" value="Login" class="btn btn-info">
+                    <script src="login.js"></script>
+                </div>
+            </div>
+        </div>
+
+        <button id="autoComplete"></button>
+    </body>
+</html>

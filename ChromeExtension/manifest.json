@@ -1,0 +1,21 @@
+{   
+    "name": "WhatPass",
+    "description": "Build an Extension!",
+    "version": "1.0",
+    "manifest_version": 3,
+    "background": {
+        "service_worker": "background.js"
+    },
+    "permissions": [
+        "storage", 
+        "activeTab", 
+        "scripting",
+        "tabs"
+    ],
+    "host_permissions": [
+        "https://localhost:44366/"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    }
+}
