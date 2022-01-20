@@ -1,8 +1,6 @@
 document.getElementById("submitLogin").addEventListener("click", login);
 document.getElementById("logOut").addEventListener("click", logout);
 
-var tokenKey = "tokenInfo";
-
 chrome.storage.local.get("userName", function(data) {
     if(data.userName != null) {
         $('.userName').text(data.userName);
@@ -28,8 +26,8 @@ function login(e) {
             $('.userInfo').css('display', 'block');
             $('.loginForm').css('display', 'none');
             
-            chrome.storage.local.set({tokenKey: data.access_token, "userName": data.userName}, function() {
-                console.log(tokenKey + ' value is set to ' + data.access_token);
+            chrome.storage.local.set({"tokenInfo": data.access_token, "userName": data.userName}, function() {
+                console.log('token value is set to ' + data.access_token);
             });
         },
         fail: function (data) {
@@ -45,6 +43,6 @@ function logout(e) {
         $('.userInfo').css('display', 'none');
         $('.loginForm').css('display', 'block');
 
-        console.log('Removed ' + tokenKey);
+        console.log('Removed token');
     });
 }

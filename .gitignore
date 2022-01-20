@@ -348,5 +348,4 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-/ChromeExtension/autofill.js
 /ChromeExtension/jquery-3.6.0.min.js
