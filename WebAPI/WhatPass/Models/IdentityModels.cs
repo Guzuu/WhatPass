@@ -29,5 +29,7 @@ namespace WhatPass.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<WhatPass.Models.CredentialsModel> Credentials { get; set; }
     }
 }
