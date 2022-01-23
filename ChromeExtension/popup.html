@@ -1,39 +1,47 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" href="popup.css">
 
-        <script src="jquery-3.6.0.min.js"></script>
-    </head>
-    <body>
-        <div class="userInfo" style="display:none;">
-            <p>You are loged in as: <span class="userName"></span></p>
-            <input type="button" value="Logout" id="logOut" class="btn btn-info"/>
-            
-            <input type="button" value="Load Pass" id="autoComplete" class="btn btn-warning mt-2"></button>
-            <script src="autofill.js"></script>
-            <input type="button" value="Save Pass" id="getCreds" class="btn btn-warning mt-2"></button>
-            <script src="getcreds.js"></script>
-        </div>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="popup.css">
 
-        <div class="loginForm">
-            <div class="form-group">
-                <div class="input-group">
-                    <input type="email" class="form-control" placeholder="Email" id="email">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="input-group">
-                    <input type="password" class="form-control" placeholder="Password" id="password">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="input-group">
-                    <input type="submit" id="submitLogin" value="Login" class="btn btn-info">
-                    <script src="login.js"></script>
-                </div>
+    <script src="jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <div class="logo">
+        <img src="WhatPass.svg" width="150" height="auto">
+    </div>
+
+    <div class="userInfo" style="display:none;">
+        <p>You are loged in as: <span class="userName"></span></p>
+        <input type="button" value="Logout" id="logOut" class="btn btn-info" />
+
+        <input type="button" value="Load Pass" id="autoComplete" class="btn btn-warning mt-2"></button>
+        <script src="autofill.js"></script>
+        <input type="button" value="Save Pass" id="getCreds" class="btn btn-warning mt-2"></button>
+        <script src="getcreds.js"></script>
+    </div>
+
+    <div class="loginForm">
+        <div class="form-group">
+            <div class="input-group">
+                <input type="email" class="form-control" placeholder="Email" id="email">
             </div>
         </div>
-    </body>
+        <div class="form-group">
+            <div class="input-group">
+                <input type="password" class="form-control" placeholder="Password" id="password">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <input type="submit" id="submitLogin" value="Login" class="btn btn-info">
+                <script src="login.js"></script>
+            </div>
+        </div>
+    </div>
+</body>
+
 </html>

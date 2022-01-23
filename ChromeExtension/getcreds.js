@@ -1,27 +1,13 @@
-document.getElementById("getCreds").addEventListener("click", getCreds);
-
-chrome.runtime.onMessage.addListener(
-    function (request, sender) {
-        console.log(sender.tab ?
-            "from a content script:" + sender.tab.url :
-            "from the extension");
-        console.log(request.loginData);
-    }
-);
-
-function getCreds() {
-    var query = { active: true, currentWindow: true };
-    chrome.tabs.query(query, function (tabs) {
-        var currentTab = tabs[0];
-        console.log(currentTab);
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+    if (tab.status != "loading") {
         chrome.scripting.executeScript({
-            target: { tabId: currentTab.id },
-            func: findCreds
+            target: { tabId: tabId },
+            func: injectFindAndSendEvent
         });
-    });
-}
+    }
+});
 
-const findCreds = () => {
+const injectFindAndSendEvent = () => {
     var forms = document.forms;
     var loginData = {
         username: "",

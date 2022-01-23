@@ -10,7 +10,8 @@
         "storage", 
         "activeTab", 
         "scripting",
-        "tabs"
+        "tabs",
+        "notifications"
     ],
     "host_permissions": [
         "https://localhost:44366/"
