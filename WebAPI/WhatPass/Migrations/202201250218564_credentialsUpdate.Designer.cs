@@ -7,13 +7,13 @@ namespace WhatPass.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class credentials : IMigrationMetadata
+    public sealed partial class credentialsUpdate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(credentials));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(credentialsUpdate));
         
         string IMigrationMetadata.Id
         {
-            get { return "202201240120591_credentials"; }
+            get { return "202201250218564_credentialsUpdate"; }
         }
         
         string IMigrationMetadata.Source

@@ -212,6 +212,7 @@
     <Compile Include="Controllers\CredentialsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -219,9 +220,17 @@
     <Compile Include="Migrations\202201170132362_InitialCreate.designer.cs">
       <DependentUpon>202201170132362_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202201240120591_credentials.cs" />
-    <Compile Include="Migrations\202201240120591_credentials.designer.cs">
-      <DependentUpon>202201240120591_credentials.cs</DependentUpon>
+    <Compile Include="Migrations\202201242358186_initial.cs" />
+    <Compile Include="Migrations\202201242358186_initial.designer.cs">
+      <DependentUpon>202201242358186_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202201250004139_credentials.cs" />
+    <Compile Include="Migrations\202201250004139_credentials.designer.cs">
+      <DependentUpon>202201250004139_credentials.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202201250218564_credentialsUpdate.cs" />
+    <Compile Include="Migrations\202201250218564_credentialsUpdate.designer.cs">
+      <DependentUpon>202201250218564_credentialsUpdate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -230,6 +239,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
+    <Compile Include="Providers\Rijndael.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -325,8 +335,14 @@
     <EmbeddedResource Include="Migrations\202201170132362_InitialCreate.resx">
       <DependentUpon>202201170132362_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202201240120591_credentials.resx">
-      <DependentUpon>202201240120591_credentials.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202201242358186_initial.resx">
+      <DependentUpon>202201242358186_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202201250004139_credentials.resx">
+      <DependentUpon>202201250004139_credentials.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202201250218564_credentialsUpdate.resx">
+      <DependentUpon>202201250218564_credentialsUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

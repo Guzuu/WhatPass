@@ -3,9 +3,14 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class credentials : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
+        {
+            DropTable("dbo.CredentialsModels");
+        }
+        
+        public override void Down()
         {
             CreateTable(
                 "dbo.CredentialsModels",
@@ -18,11 +23,6 @@
                     })
                 .PrimaryKey(t => t.Id);
             
-        }
-        
-        public override void Down()
-        {
-            DropTable("dbo.CredentialsModels");
         }
     }
 }

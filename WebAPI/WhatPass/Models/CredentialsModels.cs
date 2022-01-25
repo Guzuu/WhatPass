@@ -5,16 +5,32 @@ using System.Web;
 
 namespace WhatPass.Models
 {
-    public class CredentialsModel
+    public class ReqCredentialsDecModel
     {
-        public int Id { get; set; }
+        public string Url { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Key { get; set; }
+    }
+    public class ResCredentialsDecModel
+    {
         public string Url { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
     }
-    public class ViewCredentialsModel
+
+    public class Credentials
+    {
+        public int Id { get; set; }
+        public string Url { get; set; }
+        public string Username { get; set; }
+        public byte[] Password { get; set; }
+        virtual public int OwnerId { get; set; }
+        //public DateTime DateAdded { get; set; }
+    }
+    public class ReqCredentialsModel
     {
         public string url { get; set; }
-        public string username { get; set; }
+        public string key { get; set; }
     }
 }
