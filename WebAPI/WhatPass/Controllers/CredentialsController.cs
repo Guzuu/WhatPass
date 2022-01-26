@@ -22,33 +22,6 @@ namespace WhatPass.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/Credentials
-        //public IQueryable<Credentials> GetCredentials()
-        //{
-        //    return db.Credentials;
-        //}
-
-        // GET: api/Credentials
-        [ResponseType(typeof(Credentials))]
-        public IHttpActionResult GetCredentials(ReqCredentialsModel requestData)
-        {
-            var userId = RequestContext.Principal.Identity.GetIntUserId();
-            Credentials credentialsEnc = db.Credentials.First(p => p.OwnerId == userId && p.Url == requestData.url);
-            if (credentialsEnc == null)
-            {
-                return NotFound();
-            }
-
-            ResCredentialsDecModel credentialsDec = new ResCredentialsDecModel()
-            {
-                Url = credentialsEnc.Url,
-                Username = credentialsEnc.Username,
-                Password = Rijndael.DecryptStringFromBytes(credentialsEnc.Password, Encoding.ASCII.GetBytes(requestData.key))
-            };
-
-            return Ok(credentialsDec);
-        }
-
         // PUT: api/Credentials/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutCredentials(int id, Credentials credentials)
@@ -84,8 +57,35 @@ namespace WhatPass.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Credentials
-        [ResponseType(typeof(ReqCredentialsDecModel))]
+        // POST: api/Credentials/GetCreds
+        [Route("GetCreds")]
+        [ResponseType(typeof(ResCredentialsDecModel))]
+        public async Task<IHttpActionResult> PostGetCredentials(ReqCredentialsModel requestData)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userId = RequestContext.Principal.Identity.GetIntUserId();
+            Credentials credentialsEnc = await db.Credentials.FirstOrDefaultAsync(p => p.OwnerId == userId && p.Url == requestData.Url && p.Username == requestData.Username);
+            if (credentialsEnc == null)
+            {
+                return NotFound();
+            }
+
+            ResCredentialsDecModel credentialsDec = new ResCredentialsDecModel()
+            {
+                Username = credentialsEnc.Username,
+                Password = Rijndael.DecryptStringFromBytes(credentialsEnc.Password, Encoding.ASCII.GetBytes(requestData.Key))
+            };
+
+            return Ok(credentialsDec);
+        }
+
+        // POST: api/Credentials/CreateCreds
+        [Route("CreateCreds")]
+        [ResponseType(typeof(Credentials))]
         public async Task<IHttpActionResult> PostCredentials(ReqCredentialsDecModel credentials)
         {
             if (!ModelState.IsValid)
@@ -103,7 +103,7 @@ namespace WhatPass.Controllers
             db.Credentials.Add(credentialsEnc);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = credentialsEnc.Id }, credentialsEnc);
+            return CreatedAtRoute("ControllerActionId", new { controller = "Credentials", action = "CreateCreds", id = credentialsEnc.Id }, credentialsEnc);
         }
 
         // DELETE: api/Credentials/5

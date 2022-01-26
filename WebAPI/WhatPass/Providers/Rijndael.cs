@@ -11,23 +11,24 @@ namespace WhatPass.Providers
 
         public static byte[] EncryptStringToBytes(string plainText, byte[] Key)
         {
-            byte[] IV = new byte[16];
-            Buffer.BlockCopy(Salt, Array.IndexOf(Salt, (byte)9), IV, 0, 16);
+            byte[] IV16 = new byte[16], Key32 = new byte[32];
+            Buffer.BlockCopy(Salt, Array.IndexOf(Salt, (byte)9), IV16, 0, 16);
+            Buffer.BlockCopy(Key, Array.IndexOf(Key, (byte)116), Key32, 0, 32);
 
             // Check arguments.
             if (plainText == null || plainText.Length <= 0)
                 throw new ArgumentNullException("plainText");
-            if (Key == null || Key.Length <= 0)
+            if (Key32 == null || Key32.Length <= 0)
                 throw new ArgumentNullException("Key");
-            if (IV == null || IV.Length <= 0)
+            if (IV16 == null || IV16.Length <= 0)
                 throw new ArgumentNullException("IV");
             byte[] encrypted;
             // Create an RijndaelManaged object
             // with the specified key and IV.
             using (RijndaelManaged rijAlg = new RijndaelManaged())
             {
-                Buffer.BlockCopy(Key, Array.IndexOf(Key, (byte)116), rijAlg.Key, 0, 32);
-                rijAlg.IV = IV;
+                rijAlg.Key = Key32;
+                rijAlg.IV = IV16;
 
                 // Create an encryptor to perform the stream transform.
                 ICryptoTransform encryptor = rijAlg.CreateEncryptor(rijAlg.Key, rijAlg.IV);
@@ -54,15 +55,16 @@ namespace WhatPass.Providers
 
         public static string DecryptStringFromBytes(byte[] cipherText, byte[] Key)
         {
-            byte[] IV = new byte[16];
-            Buffer.BlockCopy(Salt, Array.IndexOf(Salt, (byte)9), IV, 0, 16);
+            byte[] IV16 = new byte[16], Key32 = new byte[32];
+            Buffer.BlockCopy(Salt, Array.IndexOf(Salt, (byte)9), IV16, 0, 16);
+            Buffer.BlockCopy(Key, Array.IndexOf(Key, (byte)116), Key32, 0, 32);
 
             // Check arguments.
             if (cipherText == null || cipherText.Length <= 0)
                 throw new ArgumentNullException("cipherText");
-            if (Key == null || Key.Length <= 0)
+            if (Key32 == null || Key32.Length <= 0)
                 throw new ArgumentNullException("Key");
-            if (IV == null || IV.Length <= 0)
+            if (IV16 == null || IV16.Length <= 0)
                 throw new ArgumentNullException("IV");
 
             // Declare the string used to hold
@@ -73,8 +75,8 @@ namespace WhatPass.Providers
             // with the specified key and IV.
             using (RijndaelManaged rijAlg = new RijndaelManaged())
             {
-                Buffer.BlockCopy(Key, Array.IndexOf(Key, (byte)116), rijAlg.Key, 0, 32);
-                rijAlg.IV = IV;
+                rijAlg.Key = Key32;
+                rijAlg.IV = IV16;
 
                 // Create a decryptor to perform the stream transform.
                 ICryptoTransform decryptor = rijAlg.CreateDecryptor(rijAlg.Key, rijAlg.IV);

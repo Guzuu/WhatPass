@@ -21,8 +21,19 @@ namespace WhatPass
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+            name: "ControllerOnly",
+            routeTemplate: "api/{controller}"
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "ControllerAction",
+                routeTemplate: "api/{controller}/{action}",
+                defaults: new { action = RouteParameter.Optional }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "ControllerActionId",
+                routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
         }

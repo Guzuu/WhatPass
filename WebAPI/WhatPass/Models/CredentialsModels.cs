@@ -14,7 +14,6 @@ namespace WhatPass.Models
     }
     public class ResCredentialsDecModel
     {
-        public string Url { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
     }
@@ -30,7 +29,13 @@ namespace WhatPass.Models
     }
     public class ReqCredentialsModel
     {
-        public string url { get; set; }
-        public string key { get; set; }
+        public string Url { get; set; }
+        public string Username { get; set; }
+        public string Key { get; set; }
+    }
+    public class CredentialsStatusModel
+    {
+        public bool IsSaved { get; set; }
+        public bool IsDifferent { get; set; }
     }
 }
