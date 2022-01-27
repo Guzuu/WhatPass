@@ -1,17 +1,20 @@
+var passData = {
+    url: "",
+    username: "",
+    password: "",
+    key: "temporarykey5134132dasdsd2312dad21ev1fc123e1ff231231c321e1fc"
+};
+
 chrome.runtime.onMessage.addListener(
     function (request, sender) {
         console.log(sender.tab ?
             "from a content script:" + sender.tab.url :
             "from the extension");
-        console.log(request.loginData);
-
         if (request.loginData != null) {
-            var passData = {
-                url: sender.tab.url,
-                username: request.loginData.username,
-                password: request.loginData.password,
-                key: "temporarykey5134132dasdsd2312dad21ev1fc123e1ff231231c321e1fc"
-            };
+
+            passData.url = sender.tab.url;
+            passData.username = request.loginData.username;
+            passData.password = request.loginData.password;
 
             chrome.storage.local.get("tokenInfo", function (data) {
                 const params = {
@@ -70,41 +73,39 @@ chrome.runtime.onMessage.addListener(
                         }
                     });
             });
-
-            chrome.notifications.onButtonClicked.addListener(function (notificationId, buttonIndex) {
-                if (buttonIndex == 0) {
-                    chrome.storage.local.get("tokenInfo", function (data) {
-
-                        if (notificationId == "create-" + sender.tab.url) {
-                            console.log("CREATE")
-                        }
-                        else if (notificationId == "update-" + sender.tab.url) {
-                            console.log("UPDATE")
-                        }
-
-                        // const params = {
-                        //     headers: {
-                        //         'Content-Type': 'application/json',
-                        //         'Authorization': 'Bearer ' + data.tokenInfo
-                        //     },
-                        //     body: JSON.stringify(passData),
-                        //     method: "POST"
-                        // }
-
-                        // fetch("https://localhost:44366/api/credentials", params)
-                        //     .then(data => { return data.json() })
-                        //     .then(res => { console.log(res) })
-                        //     .catch(error => console.log(error));
-                    });
-                }
-            });
-            // chrome.notifications.onClosed.addListener(function (notificationId, byUser){  Doesnt work, not important rn
-            //     chrome.notifications.clear(notificationId);
-            //     console.log('notification closed');
-            // });
         }
     }
 );
+
+chrome.notifications.onButtonClicked.addListener(function (notificationId, buttonIndex) {
+    if (buttonIndex == 0) {
+        chrome.storage.local.get("tokenInfo", function (data) {
+            const params = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + data.tokenInfo
+                },
+                body: JSON.stringify(passData),
+                method: "POST"
+            }
+
+            if (notificationId == "create-" + passData.url) {
+                console.log("CREATE");
+                fetch("https://localhost:44366/api/credentials/CreateCreds", params)
+                    .then(data => { return data.json() })
+                    .then(res => { console.log(res) })
+                    .catch(error => console.log(error));
+            }
+            else if (notificationId == "update-" + passData.url) {
+                console.log("UPDATE");
+            }
+        });
+    }
+});
+// chrome.notifications.onClosed.addListener(function (notificationId, byUser){  Doesnt work, not important rn
+//     chrome.notifications.clear(notificationId);
+//     console.log('notification closed');
+// });
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     chrome.storage.local.get("userName", function (data) {
@@ -122,6 +123,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 const injectFindAndSendEvent = () => {
     var forms = document.forms;
     var loginData = {
+        type: "loginEventResponse",
         username: "",
         password: ""
     }
