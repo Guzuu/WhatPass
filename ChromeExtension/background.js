@@ -80,17 +80,17 @@ chrome.runtime.onMessage.addListener(
 chrome.notifications.onButtonClicked.addListener(function (notificationId, buttonIndex) {
     if (buttonIndex == 0) {
         chrome.storage.local.get("tokenInfo", function (data) {
-            const params = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + data.tokenInfo
-                },
-                body: JSON.stringify(passData),
-                method: "POST"
-            }
 
             if (notificationId == "create-" + passData.url) {
                 console.log("CREATE");
+                const params = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + data.tokenInfo
+                    },
+                    body: JSON.stringify(passData),
+                    method: "POST"
+                }
                 fetch("https://localhost:44366/api/credentials/CreateCreds", params)
                     .then(data => { return data.json() })
                     .then(res => { console.log(res) })
@@ -98,6 +98,17 @@ chrome.notifications.onButtonClicked.addListener(function (notificationId, butto
             }
             else if (notificationId == "update-" + passData.url) {
                 console.log("UPDATE");
+                const params = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + data.tokenInfo
+                    },
+                    body: JSON.stringify(passData),
+                    method: "PUT"
+                }
+                fetch("https://localhost:44366/api/credentials/PutCreds", params)
+                    .then(res => { console.log(res) })
+                    .catch(error => console.log(error));
             }
         });
     }

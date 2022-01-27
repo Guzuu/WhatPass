@@ -22,21 +22,26 @@ namespace WhatPass.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // PUT: api/Credentials/5
+
+        // PUT: api/Credentials/PutCreds
+        [Route("PutCreds")]
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutCredentials(int id, Credentials credentials)
+        public async Task<IHttpActionResult> PutCredentials(ReqCredentialsDecModel requestData)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != credentials.Id)
+            var userId = RequestContext.Principal.Identity.GetIntUserId();
+            Credentials credentialsEnc = await db.Credentials.FirstOrDefaultAsync(p => p.OwnerId == userId && p.Url == requestData.Url && p.Username == requestData.Username);
+            if (credentialsEnc == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            db.Entry(credentials).State = EntityState.Modified;
+            credentialsEnc.Password = Rijndael.EncryptStringToBytes(requestData.Password, Encoding.ASCII.GetBytes(requestData.Key));
+            db.Entry(credentialsEnc).State = EntityState.Modified;
 
             try
             {
@@ -44,7 +49,7 @@ namespace WhatPass.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CredentialsExists(id))
+                if (!CredentialsExists(credentialsEnc.Id))
                 {
                     return NotFound();
                 }
