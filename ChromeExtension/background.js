@@ -2,7 +2,7 @@ var passData = {
     url: "",
     username: "",
     password: "",
-    key: "temporarykey5134132dasdsd2312dad21ev1fc123e1ff231231c321e1fc"
+    key: ""
 };
 
 chrome.runtime.onMessage.addListener(
@@ -11,12 +11,12 @@ chrome.runtime.onMessage.addListener(
             "from a content script:" + sender.tab.url :
             "from the extension");
         if (request.loginData.type == "loginEvent") {
-
             passData.url = sender.tab.url;
             passData.username = request.loginData.username;
             passData.password = request.loginData.password;
 
-            chrome.storage.local.get("tokenInfo", function (data) {
+            chrome.storage.local.get(["tokenInfo", "key"], function (data) {
+                passData.key = data.key;
                 const params = {
                     headers: {
                         'Content-Type': 'application/json',
@@ -80,7 +80,6 @@ chrome.runtime.onMessage.addListener(
 chrome.notifications.onButtonClicked.addListener(function (notificationId, buttonIndex) {
     if (buttonIndex == 0) {
         chrome.storage.local.get("tokenInfo", function (data) {
-
             if (notificationId == "create-" + passData.url) {
                 console.log("CREATE");
                 const params = {
@@ -122,8 +121,9 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     chrome.storage.local.get("userName", function (data) {
         if (data.userName != null) {
             if (tab.status != "loading") { //temporary
-                chrome.storage.local.get("tokenInfo", function (data) {
+                chrome.storage.local.get(["tokenInfo", "key"], function (data) {
                     passData.url = tab.url;
+                    passData.key = data.key;
                     const params = {
                         headers: {
                             'Content-Type': 'application/json',
@@ -152,6 +152,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
                             console.log("inject creds");
                         })
                         .catch(error => {
+                            console.log(passData);
                             console.log(error);
                             if (error.status == 404) {
                                 console.log("find creds");
@@ -189,8 +190,6 @@ const injectFindAndSendEvent = () => {
         username: "",
         password: ""
     }
-
-    console.log("test");
 
     Array.prototype.forEach.call(forms, form => {
         form.addEventListener("submit", function () {
