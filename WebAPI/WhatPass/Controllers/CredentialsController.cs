@@ -68,12 +68,12 @@ namespace WhatPass.Controllers
         public async Task<IHttpActionResult> PostGetCredentials(ReqCredentialsModel requestData)
         {
             if (!ModelState.IsValid)
-            {
+             {
                 return BadRequest(ModelState);
             }
 
             var userId = RequestContext.Principal.Identity.GetIntUserId();
-            Credentials credentialsEnc = await db.Credentials.FirstOrDefaultAsync(p => p.OwnerId == userId && p.Url == requestData.Url && p.Username == requestData.Username);
+            Credentials credentialsEnc = await db.Credentials.FirstOrDefaultAsync(p => p.OwnerId == userId && p.Url == requestData.Url);
             if (credentialsEnc == null)
             {
                 return NotFound();

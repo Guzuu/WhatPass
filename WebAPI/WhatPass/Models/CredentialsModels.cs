@@ -30,7 +30,6 @@ namespace WhatPass.Models
     public class ReqCredentialsModel
     {
         public string Url { get; set; }
-        public string Username { get; set; }
         public string Key { get; set; }
     }
     public class CredentialsStatusModel
