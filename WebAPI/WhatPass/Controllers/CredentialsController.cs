@@ -34,12 +34,13 @@ namespace WhatPass.Controllers
             }
 
             var userId = RequestContext.Principal.Identity.GetIntUserId();
-            Credentials credentialsEnc = await db.Credentials.FirstOrDefaultAsync(p => p.OwnerId == userId && p.Url == requestData.Url && p.Username == requestData.Username);
+            Credentials credentialsEnc = await db.Credentials.FirstOrDefaultAsync(p => p.OwnerId == userId && p.Url == requestData.Url);
             if (credentialsEnc == null)
             {
                 return NotFound();
             }
 
+            credentialsEnc.Username = requestData.Username;
             credentialsEnc.Password = Rijndael.EncryptStringToBytes(requestData.Password, Encoding.ASCII.GetBytes(requestData.Key));
             db.Entry(credentialsEnc).State = EntityState.Modified;
 
